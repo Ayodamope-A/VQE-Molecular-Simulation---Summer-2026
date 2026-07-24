@@ -1,4 +1,5 @@
 #This is the plot of the ground state energy estimated by the VQE versus the exact ground state energy of the molecule
+
 plt.plot(shots, accuracy, label='VQE Estimated Energy', marker='o')
 plt.plot(shots, accuracy, label='Exact Ground State Energy', marker='x')
 plt.xlabel('Number of Measurements(Shots)')
