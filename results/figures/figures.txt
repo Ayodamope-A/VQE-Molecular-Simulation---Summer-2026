@@ -1,4 +1,4 @@
-#This is the plot of the ground state energy estimated by the VQE versus the exact ground state energy of the molecule
+#This is the code for the plot of the ground state energy estimated by the VQE versus the exact ground state energy of the molecule(visualizes the accuracy of VQE)
 
 plt.plot(shots, accuracy, label='VQE Estimated Energy', marker='o')
 plt.plot(shots, accuracy, label='Exact Ground State Energy', marker='x')
@@ -9,3 +9,6 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
+#This is where the code for the plot of the iterations vs the ground state energy estimate of the VQE goes, with the x axis being the iterations and the y axis being the ground state energy(visualizing the impact of the shot counts on the quality of our estimate)
+
