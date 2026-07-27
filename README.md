@@ -44,3 +44,5 @@ The project may use:
 ## Project Status
 
 This project is currently under development as part of our beginner-level study of quantum computing and VQE.
+
+- `references.md` — Research papers and resources used in the project.
