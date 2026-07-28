@@ -11,8 +11,7 @@ def create_ansatz():
     for i in range(4):
         circuit.append(cirq.rx(symbols[i])(qubits[i]))
 
-    for i in range(len(qubits) - 1):
-        circuit.append(cirq.CNOT(qubits[i], qubits[i+1]))
-    return circuit
+    circuit.append(cirq.CNOT(qubits[0], qubits[1]))
+    circuit.append(cirq.CNOT(qubits[2], qubits[3]))
 
 print(create_ansatz())
