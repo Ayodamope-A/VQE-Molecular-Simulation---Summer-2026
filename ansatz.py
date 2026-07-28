@@ -10,7 +10,7 @@ def create_ansatz():
     circuit = cirq.Circuit()
     for i in range(4):
         circuit.append(cirq.rx(symbols[i])(qubits[i]))
-    # Add some entanglement
+        
     circuit.append(cirq.CNOT(qubits[0], qubits[1]))
     circuit.append(cirq.CNOT(qubits[2], qubits[3]))
     return circuit
