@@ -4,7 +4,7 @@
 
 from openfermion import MolecularData, QubitOperator
 
-from hamiltonian import generate_hamiltonian
+from src.hamiltonian import generate_hamiltonian
 
 
 #
