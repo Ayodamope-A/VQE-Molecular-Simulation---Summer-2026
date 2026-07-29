@@ -4,7 +4,7 @@
 import cirq
 import numpy as np
 
-from ansatz import create_ansatz
+from src.ansatz import create_ansatz
 
 
 # 
