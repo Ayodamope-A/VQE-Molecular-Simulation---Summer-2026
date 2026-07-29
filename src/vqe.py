@@ -26,7 +26,7 @@ def vqe(H_Sparse):
 dataset= pennylane.data.load("qchem", molname="H2")[0]
 
 H_Sparse= pennylane.matrix(dataset.hamiltonian)
-# H_Sparse = replace with hamiltonian when whoever's done
+# H_Sparse = replace with hamiltonian matrix when whoever's done
 
 
 print(vqe(H_Sparse))
