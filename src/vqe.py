@@ -1,8 +1,10 @@
 import numpy as np
 import cirq
-import pennylane
 from scipy.optimize import minimize
 from ansatz import create_ansatz
+from molecule import create_h2_molecule
+from hamiltonian import generate_hamiltonian
+from openfermion.linalg import get_sparse_operator
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -23,11 +25,10 @@ def vqe(H_Sparse):
     res = minimize(expectation, x0=x0, method='COBYLA', options={'maxiter': 300})
     return res.fun
     
-dataset= pennylane.data.load("qchem", molname="H2")[0]
 
-H_Sparse= pennylane.matrix(dataset.hamiltonian)
-# H_Sparse = replace with hamiltonian matrix when whoever's done
+molecule = create_h2_molecule()
+molecule, qubit_hamiltonian = generate_hamiltonian(molecule)
+H_Sparse = get_sparse_operator(qubit_hamiltonian)
 
 
-print(vqe(H_Sparse))
-
+#print(vqe(H_Sparse))
