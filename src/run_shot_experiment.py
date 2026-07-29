@@ -12,7 +12,7 @@ for shots in shot_counts:
     for trial in range(trial_number):
 
         dictionary = {
-            "Shout Count": shot_counts,
+            "Shot Count": shot_counts,
             "Trial": trial + 1,
             "Exact Energy": exact_energy,
             "VQE Energy": vqe_energy,
