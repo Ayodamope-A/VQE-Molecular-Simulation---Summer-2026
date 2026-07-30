@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore")
 def vqe(H_Sparse):
 
     def expectation(params):
-        resolver = cirq.ParamResolver({str(symbols[i]): params[i] for i in range(4)})
+        resolver = cirq.ParamResolver({str(symbols[i]): params[i] for i in range(len(symbols))})
         result = sim.simulate(circuit, resolver)
         psi = result.final_state_vector  # shape: (16,)
         return np.real(psi.conj().T @ (H_Sparse @ psi))
@@ -21,7 +21,7 @@ def vqe(H_Sparse):
     circuit, symbols = create_ansatz()
     sim = cirq.Simulator()
     
-    x0 = np.random.uniform(0, 2*np.pi, 4)
+    x0 = np.random.uniform(0, 2*np.pi, len(symbols))
     res = minimize(expectation, x0=x0, method='COBYLA', options={'maxiter': 300})
     return res.fun
     
@@ -29,6 +29,4 @@ def vqe(H_Sparse):
 molecule = create_h2_molecule()
 molecule, qubit_hamiltonian = generate_hamiltonian(molecule)
 H_Sparse = get_sparse_operator(qubit_hamiltonian)
-
-
 #print(vqe(H_Sparse))
