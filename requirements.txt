@@ -62,5 +62,13 @@ typedunits==0.0.2
 typing_extensions==4.16.0
 tzdata==2026.3
 urllib3==2.7.0
-
+cirq
+numpy
+scipy
+sympy
+pandas
+matplotlib
+openfermion
+openfermionpyscf
+pyscf
 
