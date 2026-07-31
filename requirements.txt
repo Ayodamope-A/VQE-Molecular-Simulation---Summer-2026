@@ -1,5 +1,5 @@
-Some of the software requirements our team needed 
-to complete our project are listed below 
+#Some of the software requirements our team needed 
+#to complete our project are listed below 
 
 attrs==26.1.0
 certifi==2026.7.22
