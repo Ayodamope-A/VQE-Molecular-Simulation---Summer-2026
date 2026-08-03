@@ -44,9 +44,10 @@ plt.errorbar(
     marker="o",
     capsize=4
 )
-# Use a logarithmic x-axis because the shot counts
+# Use a inverse-hiperbolic sin x-axis because the shot counts
 # may range from hundreds to hundreds of thousands.
-plt.xscale("log")
+
+plt.xscale("asinh")
 plt.xlabel("Number of Shots")
 plt.ylabel("Average Absolute Error")
 plt.title("Effect of Shot Count on VQE Error")
@@ -74,6 +75,3 @@ print(
     "Graph saved to",
     graph_filename
 )
-
-
-
