@@ -10,6 +10,7 @@ def create_ansatz():
     circuit = cirq.Circuit()
     circuit.append(cirq.X(qubits[0]))
     circuit.append(cirq.X(qubits[1]))
+    
     for x in range(2):
             
         for i in range(4):
@@ -24,3 +25,9 @@ def create_ansatz():
         
     return circuit, symbols
 
+
+circuit, symbols = create_ansatz()
+noise = cirq.depolarize(0.01)
+noisy_circuit = circuit.with_noise(noise)
+
+print(noisy_circuit)
