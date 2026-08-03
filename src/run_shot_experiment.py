@@ -35,8 +35,16 @@ from vqe import vqe
 
 shot_counts = [
     100,
+    250,
+    500,
     1000,
+    2500,
+    5000,
+    7500,
     10000,
+    25000,
+    50000,
+    75000,
     100000
 ]
 
@@ -44,7 +52,7 @@ shot_counts = [
 #
 # More trials produce more reliable averages and standard
 # deviations, but they also increase the execution time.
-trial_number = 5
+trial_number = 30
 
 # Do not change this list.
 # It stores the result from every completed trial.
