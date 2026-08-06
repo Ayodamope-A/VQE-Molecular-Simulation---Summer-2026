@@ -14,6 +14,7 @@ TEAM, THIS IS THE PROCEDURE FOR RUNNING THIS FILE
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
 
 from molecule import create_h2_molecule
 from hamiltonian import generate_hamiltonian
@@ -35,16 +36,8 @@ from vqe import vqe
 
 shot_counts = [
     100,
-    250,
-    500,
     1000,
-    2500,
-    5000,
-    7500,
     10000,
-    25000,
-    50000,
-    75000,
     100000
 ]
 
@@ -59,63 +52,74 @@ trial_number = 30
 
 results = []
 
+# EDIT (08/05/2025) Create a list called "bond_length"
 
-# Create the H2 molecule.
-# The molecular settings are defined in molecule.py.
-molecule = create_h2_molecule()
+# Create several bond lengths between 0.1 and 2.0 angstroms.
+# The third number controls how many bond lengths are tested.
+bond_lengths = np.linspace(0.1, 2.0, 10)
 
-# Run PySCF and convert the molecular Hamiltonian
-# into a qubit Hamiltonian.
-molecule, qubit_hamiltonian = (
-    generate_hamiltonian(molecule)
-)
+# Test every bond length individually.
+for bond_length in bond_lengths:
 
+    bond_length = float(bond_length)
 
-# Get the exact FCI energy used as the reference value.
-exact_energy = get_exact_energy(molecule)
+    print(f"\nTesting bond length: {bond_length:.4f}")
 
+    # Create H2 using the current bond length.
+    molecule = create_h2_molecule(bond_length)
 
-# Run each shot-count experiment
-for shots in shot_counts:
-    for trial in range(trial_number):
+    # Generate a new Hamiltonian for this bond length.
+    molecule, qubit_hamiltonian = generate_hamiltonian(
+        molecule
+    )
 
-        vqe_energy = vqe(
-            qubit_hamiltonian,
-            shots
-        )
+    # Calculate the exact energy for this bond length.
+    exact_energy = get_exact_energy(molecule)
 
-        absolute_error = calculate_error(
-            vqe_energy,
-            exact_energy
-        )
+    # Run every shot count.
+    for shots in shot_counts:
+        for trial in range(trial_number):
 
-        percent_error = (
-            absolute_error
-            / abs(exact_energy)
-            * 100
-        )
+            vqe_energy = vqe(
+                qubit_hamiltonian,
+                shots
+            )
 
-        result = {
-            "Shot Count": shots,
-            "Trial": trial + 1,
-            "Exact Energy": exact_energy,
-            "VQE Energy": vqe_energy,
-            "Absolute Error": absolute_error,
-            "Percent Error": percent_error
-        }
+            absolute_error = calculate_error(
+                vqe_energy,
+                exact_energy
+            )
 
-        results.append(result)
+            percent_error = (
+                absolute_error
+                / abs(exact_energy)
+                * 100
+            )
 
-        print(
-            "Shots:",
-            shots,
-            "| Trial:",
-            trial + 1,
-            "| VQE Energy:",
-            vqe_energy,
-            "| Absolute Error:",
-            absolute_error
-        )
+            result = {
+                "Bond Length": bond_length,
+                "Shot Count": shots,
+                "Trial": trial + 1,
+                "Exact Energy": exact_energy,
+                "VQE Energy": vqe_energy,
+                "Absolute Error": absolute_error,
+                "Percent Error": percent_error
+            }
+
+            results.append(result)
+
+            print(
+                "Bond Length:",
+                round(bond_length, 4),
+                "| Shots:",
+                shots,
+                "| Trial:",
+                trial + 1,
+                "| VQE Energy:",
+                vqe_energy,
+                "| Absolute Error:",
+                absolute_error
+            )
 
 
 # Create the results folder if needed
@@ -138,10 +142,12 @@ experiment_data.to_csv(
 # The standard deviation shows how much the trials varied.
 
 summary = experiment_data.groupby(
-    "Shot Count"
+    ["Bond Length", "Shot Count"]
 ).agg({
+    "Exact Energy": "first",
     "VQE Energy": ["mean", "std"],
-    "Absolute Error": ["mean", "std", "min", "max"]
+    "Absolute Error": ["mean", "std", "min", "max"],
+    "Percent Error": ["mean", "std"]
 })
 
 # Save the summary using the number of trials
